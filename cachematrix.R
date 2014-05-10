@@ -1,9 +1,9 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Theses functions will "wrap" a matrix and allow us to cache the matrix's
+## inverse.  The first function returns a list of functions and second 
+## function computes the inverse or returns a cached value if possible
 
-library(MASS)
-
-## Write a short comment describing this function
+## The function is the "class" for the matrix and returns a way to access
+## function to get and set the matrix and get and set its inverse.
 
 makeCacheMatrix <- function(x = matrix()) {
   inv <- NULL
@@ -20,10 +20,13 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## This is Aaron's version of the file
+## This function returns the inverse of the matrix, as determined by the
+## "solve" function.  I assume that any matrix I am dealing with can
+## be inverted with solve.  This function passes along any additional
+## parameters to solve (assuming the inverse is not returned from the cache)
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+
   inv <- x$getinv()
   if (!is.null(inv))
   {
@@ -31,15 +34,13 @@ cacheSolve <- function(x, ...) {
     return(inv)
   }
   
-  data <- x$get()
-  
-  #If square, we can use solve()
-  if (nrow(data) == ncol(data))
-    inv = solve(data, ...)
-  else
-    inv = ginv(data, ...)
+  #data <- x$get()
+  #Call solve and pass along additional parameters
+  inv = solve(x$get(), ...)
   
   #Set the cached value
   x$setinv(inv)
+  
+  #return the inverse
   inv
 }
