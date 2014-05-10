@@ -34,7 +34,6 @@ cacheSolve <- function(x, ...) {
     return(inv)
   }
   
-  #data <- x$get()
   #Call solve and pass along additional parameters
   inv = solve(x$get(), ...)
   
